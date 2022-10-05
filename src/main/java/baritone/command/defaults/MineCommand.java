@@ -24,6 +24,7 @@ import baritone.api.command.datatypes.BlockById;
 import baritone.api.command.datatypes.ForBlockOptionalMeta;
 import baritone.api.command.exception.CommandException;
 import baritone.api.utils.BlockOptionalMeta;
+import baritone.api.utils.BlockOptionalMetaLookup;
 import baritone.cache.WorldScanner;
 
 import java.util.ArrayList;
@@ -43,7 +44,9 @@ public class MineCommand extends Command {
         args.requireMin(1);
         List<BlockOptionalMeta> boms = new ArrayList<>();
         while (args.hasAny()) {
-            boms.add(args.getDatatypeFor(ForBlockOptionalMeta.INSTANCE));
+            String arg = args.getString();
+            BlockOptionalMeta bom = new BlockOptionalMeta(arg);
+            boms.add(bom);
         }
         WorldScanner.INSTANCE.repack(ctx);
         logDirect(String.format("Mining %s", boms.toString()));

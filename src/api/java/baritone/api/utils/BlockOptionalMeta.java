@@ -42,6 +42,8 @@ import net.minecraft.world.level.storage.loot.PredicateManager;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
+import org.apache.commons.compress.utils.Lists;
+
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -148,6 +150,7 @@ public final class BlockOptionalMeta {
             rpl.reload();
             PackResources thePack = rpl.getAvailablePacks().iterator().next().open();
             ReloadableResourceManager resourceManager = new ReloadableResourceManager(PackType.SERVER_DATA);
+
             manager = new LootTables(predicate);
             resourceManager.registerReloadListener(manager);
             try {
@@ -164,7 +167,8 @@ public final class BlockOptionalMeta {
     }
 
     private static synchronized List<Item> drops(Block b) {
-        return drops.computeIfAbsent(b, block -> {
+        return Lists.newArrayList();
+        /*return drops.computeIfAbsent(b, block -> {
             ResourceLocation lootTableLocation = block.getLootTable();
             if (lootTableLocation == BuiltInLootTables.EMPTY) {
                 return Collections.emptyList();
@@ -185,5 +189,6 @@ public final class BlockOptionalMeta {
                 return items;
             }
         });
+    */
     }
 }
